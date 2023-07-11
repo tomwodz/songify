@@ -5,11 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class SongsController {
@@ -23,6 +24,25 @@ public class SongsController {
         SongResponseDto response = new SongResponseDto(database);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/songs2")
+    public ResponseEntity<SongResponseDto> getAllSongs(@RequestParam(required = false) Integer limit){
+        database.put(1, "shawnmendes song1");
+        database.put(2, "ariana grande song2");
+        database.put(3, "test");
+        database.put(4, "test 2");
+        if(limit != null){
+            Map<Integer, String> limitedMap = database.entrySet()
+                    .stream()
+                    .limit(limit)
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            SongResponseDto response = new SongResponseDto(limitedMap);
+            return ResponseEntity.ok(response);
+        }
+        SongResponseDto response = new SongResponseDto(database);
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/songs/{id}")
     public ResponseEntity<SingleSongResponseDto> getAllSongById(@PathVariable Integer id){
         String song = database.get(id);
