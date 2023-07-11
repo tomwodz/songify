@@ -10,7 +10,12 @@ import java.util.Map;
 @Controller
 public class SongViewController {
 
-    private Map<Integer, String> database =new HashMap<>();
+    Map<Integer, String> database = new HashMap<>(Map.of(
+            1, "shawnmendes song1",
+            2, "ariana grande song2",
+            3, "test",
+            4, "test 2"
+    ));
 
     @GetMapping("/")
     public String home(){
@@ -19,10 +24,6 @@ public class SongViewController {
 
     @GetMapping("/view/songs")
     public String songs(Model model){
-        database.put(1, "shawnmendes song1");
-        database.put(2, "ariana grande song2");
-        database.put(3, "test");
-        database.put(4, "test 2");
         model.addAttribute("songMap", database);
         return  "songs";
     }
