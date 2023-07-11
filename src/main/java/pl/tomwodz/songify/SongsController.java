@@ -21,13 +21,10 @@ public class SongsController {
             4, "test 2"
     ));
 
-    @GetMapping("/songs")
-    public ResponseEntity<SongResponseDto> getAllSongs(){
-        SongResponseDto response = new SongResponseDto(database);
-        return ResponseEntity.ok(response);
-    }
 
-    @GetMapping("/songs2")
+
+
+    @GetMapping("/songs")
     public ResponseEntity<SongResponseDto> getAllSongs(@RequestParam(required = false) Integer limit){
 
         if(limit != null){
@@ -42,17 +39,6 @@ public class SongsController {
         return ResponseEntity.ok(response);
     }
 
-/*
-   @GetMapping("/songs/{id}")
-    public ResponseEntity<SingleSongResponseDto> getAllSongById(@PathVariable Integer id){
-        String song = database.get(id);
-        if(song  == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        SingleSongResponseDto response = new SingleSongResponseDto(song);
-        return ResponseEntity.ok(response);
-    }
-*/
 
     @GetMapping("/songs/{id}")
     public ResponseEntity<SingleSongResponseDto> getAllSongById(@PathVariable Integer id, @RequestHeader(required = false) String requestId){
@@ -64,5 +50,31 @@ public class SongsController {
         SingleSongResponseDto response = new SingleSongResponseDto(song);
         return ResponseEntity.ok(response);
     }
+    @PostMapping("/songs/{id}")
+    public ResponseEntity<SingleSongResponseDto> postSong(@RequestBody SongRequestDto request){
+        String songName = request.songName();
+        log.info("adding new song: " + songName);
+        database.put(database.size() + 1, songName);
+        return ResponseEntity.ok(new SingleSongResponseDto(songName));
+    }
+    }
 
-}
+
+       /* @GetMapping("/songs")
+    public ResponseEntity<SongResponseDto> getAllSongs(){
+        SongResponseDto response = new SongResponseDto(database);
+        return ResponseEntity.ok(response);
+    }*/
+
+    /*
+   @GetMapping("/songs/{id}")
+    public ResponseEntity<SingleSongResponseDto> getAllSongById(@PathVariable Integer id){
+        String song = database.get(id);
+        if(song  == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        SingleSongResponseDto response = new SingleSongResponseDto(song);
+        return ResponseEntity.ok(response);
+    }
+*/
+
