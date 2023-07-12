@@ -56,6 +56,14 @@ public class SongRestController {
         database.put(database.size() + 1, songName);
         return ResponseEntity.ok(new SingleSongResponseDto(songName));
     }
+
+    @DeleteMapping("/songs/{id}")
+    public ResponseEntity<String> deleteSongByIdUsingPathVariable(@PathVariable Integer id){
+        database.remove(id);
+        return  ResponseEntity.ok("You deleted song with id: " + id);
+    }
+
+
 }
 
 
