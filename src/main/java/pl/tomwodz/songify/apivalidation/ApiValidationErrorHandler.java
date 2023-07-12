@@ -5,7 +5,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import pl.tomwodz.songify.song.SongRestController;
+import pl.tomwodz.songify.song.controller.SongRestController;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package pl.tomwodz.songify.song;
+package pl.tomwodz.songify.song.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
