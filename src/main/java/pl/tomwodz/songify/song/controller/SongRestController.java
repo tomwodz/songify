@@ -5,12 +5,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.tomwodz.songify.song.dto.request.PartiallyUpdateRequestDto;
 import pl.tomwodz.songify.song.dto.request.SongRequestDto;
 import pl.tomwodz.songify.song.dto.request.UpdateSongRequestDto;
-import pl.tomwodz.songify.song.dto.response.DeleteSongResponseDto;
-import pl.tomwodz.songify.song.dto.response.SingleSongResponseDto;
-import pl.tomwodz.songify.song.dto.response.SongResponseDto;
-import pl.tomwodz.songify.song.dto.response.UpdateSongResponseDto;
+import pl.tomwodz.songify.song.dto.response.*;
 import pl.tomwodz.songify.song.error.SongNotFoundException;
 
 import java.util.HashMap;
@@ -86,6 +84,32 @@ public class SongRestController {
                         " with song name: " + oldSong.name() + " to new SongName: " + newSong.name() +
                 " old Artist: " + oldSong.artist() + " to new Artist: " + newSong.artist());
         return ResponseEntity.ok(new UpdateSongResponseDto(newSong.name(), newArtist));
+    }
+
+    @PatchMapping("/songs/{id}")
+    public ResponseEntity<PartiallyUpdateSongResponseDto> partiallyUpdateSong(@PathVariable Integer id,
+                                                                              @RequestBody PartiallyUpdateRequestDto request) {
+        if (!database.containsKey(id)) {
+            throw new SongNotFoundException("Song with id " + id + " not found.");
+        }
+        Song songFromDatabase = database.get(id);
+        Song.SongBuilder builder = Song.builder();
+        if (request.songName() != null) {
+            builder.name(request.songName());
+            log.info("partially updated song name");
+        } else {
+            builder.name(songFromDatabase.name());
+        }
+        if (request.artist() != null) {
+            builder.artist(request.artist());
+            log.info("partially updated song artist");
+        } else {
+            builder.artist(songFromDatabase.artist());
+        }
+        Song updatedSong = builder.build();
+        database.put(id,updatedSong);
+
+        return ResponseEntity.ok(new PartiallyUpdateSongResponseDto(updatedSong));
     }
 
 }
