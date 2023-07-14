@@ -10,7 +10,7 @@ import pl.tomwodz.songify.song.domain.model.Song;
 import java.util.Map;
 
 public class SongMapper {
-    public static Song mapFromCreateSongDtoToSong(CreateSongRequestDto dto) {
+    public static Song mapFromCreateSongRequestDtoToSong(CreateSongRequestDto dto) {
         return new Song(dto.songName(), dto.artist());
     }
 
