@@ -1,4 +1,4 @@
-package pl.tomwodz.songify.song.dto.response;
+package pl.tomwodz.songify.song.infrastructure.controller.dto.response;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

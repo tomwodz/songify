@@ -1,4 +1,4 @@
-package pl.tomwodz.songify.song.dto.response;
+package pl.tomwodz.songify.song.infrastructure.controller.dto.response;
 
 import org.springframework.http.HttpStatus;
 

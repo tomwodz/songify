@@ -1,4 +1,4 @@
-package pl.tomwodz.songify.song.error;
+package pl.tomwodz.songify.song.infrastructure.controller.error;
 
 import org.springframework.http.HttpStatus;
 
