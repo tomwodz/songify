@@ -7,7 +7,7 @@ import pl.tomwodz.songify.song.infrastructure.controller.dto.request.UpdateSongR
 import pl.tomwodz.songify.song.infrastructure.controller.dto.response.*;
 import pl.tomwodz.songify.song.domain.model.Song;
 
-import java.util.Map;
+import java.util.List;
 
 public class SongMapper {
     public static Song mapFromCreateSongRequestDtoToSong(CreateSongRequestDto dto) {
@@ -33,7 +33,7 @@ public class SongMapper {
     }
 
     public static UpdateSongResponseDto mapFromSongtoUpdateSongResponseDto(Song newSong) {
-        return new UpdateSongResponseDto(newSong.name(), newSong.artist());
+        return new UpdateSongResponseDto(newSong.getName(), newSong.getArtist());
     }
 
     public static PartiallyUpdateSongResponseDto mapFromSongToPartiallyUpdateSongResponseDto(Song updatedSong) {
@@ -44,7 +44,7 @@ public class SongMapper {
         return new GetSongResponseDto(song);
     }
 
-    public static GetAllSongsResponseDto mapFromSongToGetAllSongsResponseDto(Map<Integer, Song> database) {
+    public static GetAllSongsResponseDto mapFromSongToGetAllSongsResponseDto(List<Song> database) {
         return new GetAllSongsResponseDto(database);
     }
 
