@@ -8,12 +8,15 @@ import pl.tomwodz.songify.song.domain.repository.SongRepository;
 @Log4j2
 public class SongDeleter {
     private final SongRepository songRepository;
-    SongDeleter(SongRepository  songRepository) {
+    private final SongRetriever songRetriever;
+
+    SongDeleter(SongRepository songRepository, SongRetriever songRetriever) {
         this.songRepository = songRepository;
+        this.songRetriever = songRetriever;
     }
 
-
-    public void deletebyId(Long id) {
+    public void deleteById(Long id) {
+        songRetriever.existsById(id);
         log.info("deleting song by id: " + id);
         songRepository.deleteById(id);
     }

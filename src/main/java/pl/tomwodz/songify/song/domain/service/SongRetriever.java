@@ -27,12 +27,15 @@ public class SongRetriever {
                 .limit(limit)
                 .toList();
     }
-    public Optional<Song> findSongById(Long id){
-        return songRepository.findById(id);
-    };
-
-    public void existsById(Long id){
-        findSongById(id).
-                orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found."));
+    public Song findSongById(Long id){
+        return songRepository.findById(id)
+                .orElseThrow(() -> new SongNotFoundException("Song with id " + id + " not found."));
     }
+
+    public void existsById(Long id) {
+        if (!songRepository.existsById(id)) {
+            throw new SongNotFoundException("Song with id " + id + " not found.");
+        }
+    }
+
 }

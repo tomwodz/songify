@@ -12,11 +12,14 @@ import pl.tomwodz.songify.song.domain.repository.SongRepository;
 public class SongUpdater {
 
     private final SongRepository songRepository;
-    SongUpdater(SongRepository  songRepository) {
+    private final SongRetriever songRetriever;
+    SongUpdater(SongRepository  songRepository, SongRetriever songRetriever) {
         this.songRepository = songRepository;
+        this.songRetriever = songRetriever;
     }
 
     public void updateById(Long id, Song newSong) {
+        songRetriever.existsById(id);
         songRepository.updateById(id, newSong);
     }
 }
