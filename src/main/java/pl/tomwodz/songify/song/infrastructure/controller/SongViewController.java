@@ -3,6 +3,7 @@ package pl.tomwodz.songify.song.infrastructure.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import pl.tomwodz.songify.song.domain.service.SongRetriever;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,12 +11,11 @@ import java.util.Map;
 @Controller
 public class SongViewController {
 
-    Map<Integer, String> database = new HashMap<>(Map.of(
-            1, "shawnmendes song1",
-            2, "ariana grande song2",
-            3, "test",
-            4, "test 2"
-    ));
+    private  final SongRetriever songRetriever;
+
+    public SongViewController(SongRetriever songRetriever) {
+        this.songRetriever = songRetriever;
+    }
 
     @GetMapping("/")
     public String home(){
@@ -24,7 +24,7 @@ public class SongViewController {
 
     @GetMapping("/view/songs")
     public String songs(Model model){
-        model.addAttribute("songMap", database);
+        model.addAttribute("songMap", this.songRetriever.findAll());
         return  "songs";
     }
 }

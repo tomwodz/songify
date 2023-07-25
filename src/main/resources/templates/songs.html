@@ -8,7 +8,7 @@
 <h1>Song List</h1>
 <ol>
     <li th:each="song : ${songMap}">
-        <span th:text="'Song ' + ${song.key} + ': ' + ${song.value}"></span>
+        <span th:text="'Song:' + ${song.id} + ': ' + ${song.artist} + ' ' + ${song.name}"></span>
     </li>
 </ol>
 </body>
