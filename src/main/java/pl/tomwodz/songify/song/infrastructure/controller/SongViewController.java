@@ -1,5 +1,6 @@
 package pl.tomwodz.songify.song.infrastructure.controller;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,8 @@ public class SongViewController {
     }
 
     @GetMapping("/view/songs")
-    public String songs(Model model){
-        model.addAttribute("songMap", this.songRetriever.findAll());
+    public String songs(Model model, Pageable pageable){
+        model.addAttribute("songMap", this.songRetriever.findAll(pageable));
         return  "songs";
     }
 }
