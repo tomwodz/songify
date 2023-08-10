@@ -15,10 +15,11 @@ import pl.tomwodz.songify.song.infrastructure.controller.dto.request.PartiallyUp
 import pl.tomwodz.songify.song.infrastructure.controller.dto.request.CreateSongRequestDto;
 import pl.tomwodz.songify.song.infrastructure.controller.dto.request.UpdateSongRequestDto;
 import pl.tomwodz.songify.song.infrastructure.controller.dto.response.*;
-import pl.tomwodz.songify.song.domain.model.SongNotFoundException;
 import pl.tomwodz.songify.song.domain.model.Song;
 
 import java.util.List;
+
+import static pl.tomwodz.songify.song.infrastructure.controller.SongMapper.*;
 
 @RestController
 @Log4j2
@@ -39,44 +40,44 @@ public class SongRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetSongResponseDto> getAllSongById(@PathVariable Long id, @RequestHeader(required = false) String requestId) {
+    public ResponseEntity<GetSongResponseDto> getSongById(@PathVariable Long id, @RequestHeader(required = false) String requestId) {
         log.info(requestId);
         Song song = songRetriever.findSongById(id);
-        GetSongResponseDto response = SongMapper.mapFromSongToGetResponseDto(song);
+        GetSongResponseDto response = mapFromSongToGetResponseDto(song);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<CreateSongResponseDto> postSong(@RequestBody @Valid CreateSongRequestDto request) {
         Song song = SongMapper.mapFromCreateSongRequestDtoToSong(request);
-        songAdder.addSong(song);
-        CreateSongResponseDto body = SongMapper.mapFromSongToCreateResponseDto(song);
+        Song saveSong = songAdder.addSong(song);
+        CreateSongResponseDto body = mapFromSongToCreateResponseDto(saveSong);
         return ResponseEntity.ok(body);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<DeleteSongResponseDto> deleteSongByIdUsingPathVariable(@PathVariable Long id) {
         songDeleter.deleteById(id);
-        DeleteSongResponseDto body = SongMapper.mapFromSongToDeleteSongResponseDto(id);
+        DeleteSongResponseDto body = mapFromSongToDeleteSongResponseDto(id);
         return ResponseEntity.ok(body);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UpdateSongResponseDto> update(@PathVariable Long id,
                                                         @RequestBody @Valid UpdateSongRequestDto request){
-        Song newSong = SongMapper.mapFromUpDateSongRequestDtoToSong(request);
+        Song newSong = mapFromUpDateSongRequestDtoToSong(request);
         songUpdater.updateById(id, newSong);
         log.info("Updated song with id: " + id);
-        UpdateSongResponseDto body = SongMapper.mapFromSongtoUpdateSongResponseDto(newSong);
+        UpdateSongResponseDto body = mapFromSongtoUpdateSongResponseDto(newSong);
         return ResponseEntity.ok(body);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<PartiallyUpdateSongResponseDto> partiallyUpdateSong(@PathVariable Long id,
                                                                               @RequestBody PartiallyUpdateRequestDto request) {
-        Song updatedSong = SongMapper.mapFromPartiallyUpdateSongRequestDtoToSong(request);
+        Song updatedSong = mapFromPartiallyUpdateSongRequestDtoToSong(request);
         Song savedSong = songUpdater.updatePartiallyById(id, updatedSong);
-        PartiallyUpdateSongResponseDto body = SongMapper.mapFromSongToPartiallyUpdateSongResponseDto(savedSong);
+        PartiallyUpdateSongResponseDto body = mapFromSongToPartiallyUpdateSongResponseDto(savedSong);
         return ResponseEntity.ok(body);
     }
 
